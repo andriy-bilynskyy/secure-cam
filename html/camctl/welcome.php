@@ -3,13 +3,11 @@
 
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        if(file_exists($on_file))
+        if(exec("/etc/init.d/you-stream_serv status") == "Running")
         {
-            unlink($on_file);
+            shell_exec("sudo service you-stream_serv stop");
         }else{
-            $handle = fopen($on_file, 'w');
-            fwrite($handle, '<h1>Привет, мир!</h1>');
-            fclose($handle);
+            shell_exec("sudo service you-stream_serv start");
         }
     }
 ?>
@@ -39,7 +37,7 @@
                 <div style = "background-color:#333333; color:#FFFFFF; padding:3px;"><b>Welcome</b></div>
                 <div style = "margin:2ch">
                     <?php
-                        if(file_exists($on_file))
+                        if(exec("/etc/init.d/you-stream_serv status") == "Running")
                         {
                             echo "<font color='green'>Camera alarm is active</font>";
                             $security = "turn off";
